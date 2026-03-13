@@ -597,48 +597,34 @@ footer{
 }
 /* ── THEME SWITCHER ── */
 #theme-switcher{
-  position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:400;
-  display:flex;flex-direction:column;align-items:center;gap:0.45rem;
-  background:rgba(var(--bg-rgb),0.82);
+  position:fixed;right:0.4rem;top:68px;z-index:400;
+  display:flex;flex-direction:column;align-items:center;gap:0.35rem;
+  background:rgba(var(--bg-rgb),0.85);
   backdrop-filter:blur(16px);
-  border:1px solid var(--border);border-right:none;
-  padding:0.5rem 0.4rem;
-  border-radius:8px 0 0 8px;
+  border:1px solid var(--border);
+  padding:0.45rem 0.4rem;
+  border-radius:12px;
   transition:all 0.35s;
 }
 #theme-switcher:hover{border-color:var(--border-hi);box-shadow:0 4px 24px rgba(0,0,0,0.3)}
 .ts-dot{
-  width:12px;height:12px;border-radius:50%;
+  width:11px;height:11px;border-radius:50%;
   cursor:pointer;transition:all 0.2s;
   border:2px solid transparent;
   position:relative;flex-shrink:0;
 }
 .ts-dot:hover{transform:scale(1.3)}
 .ts-dot.active{border-color:var(--heading);transform:scale(1.2)}
-.ts-dot .ts-tip{
-  position:absolute;right:calc(100% + 10px);top:50%;transform:translateY(-50%);
-  background:var(--bg4);color:var(--text);
-  font-size:0.74rem;font-weight:600;letter-spacing:0.06em;
-  padding:0.25rem 0.55rem;border-radius:4px;
-  white-space:nowrap;pointer-events:none;
-  opacity:0;transition:opacity 0.2s;
-  border:1px solid var(--border);
-}
-.ts-dot .ts-tip::after{
-  content:'';position:absolute;left:100%;top:50%;transform:translateY(-50%);
-  border:4px solid transparent;border-left-color:var(--bg4);
-}
-.ts-dot:hover .ts-tip{opacity:1}
-.ts-sep{height:1px;width:12px;background:var(--border);flex-shrink:0;margin:0.05rem 0}
+.ts-sep{height:1px;width:11px;background:var(--border);flex-shrink:0;margin:0.05rem 0}
 .ts-mode{
-  width:22px;height:22px;border-radius:50%;
+  width:20px;height:20px;border-radius:50%;
   cursor:pointer;transition:all 0.25s;
   display:flex;align-items:center;justify-content:center;
   background:transparent;border:1px solid var(--border);
   color:var(--text-soft);flex-shrink:0;
 }
 .ts-mode:hover{border-color:var(--accent);color:var(--accent)}
-.ts-mode svg{width:11px;height:11px}
+.ts-mode svg{width:10px;height:10px}
 </style>
 </head>
 <body>
@@ -1590,7 +1576,7 @@ function buildSwitcher(){
   sw.id = 'theme-switcher';
   let html = '';
   for(const [id, p] of Object.entries(PALETTES)){
-    html += `<div class="ts-dot${id===currentPalette?' active':''}" data-palette="${id}" style="background:${p.dot}" onclick="applyTheme('${id}',currentMode)"><span class="ts-tip">${p.name}</span></div>`;
+    html += `<div class="ts-dot${id===currentPalette?' active':''}" data-palette="${id}" style="background:${p.dot}" onclick="applyTheme('${id}',currentMode)" title="${p.name}"></div>`;
   }
   html += '<div class="ts-sep"></div>';
   html += `<button class="ts-mode" id="ts-mode-btn" onclick="applyTheme(currentPalette, currentMode==='dark'?'light':'dark')" aria-label="Toggle light/dark mode"></button>`;
