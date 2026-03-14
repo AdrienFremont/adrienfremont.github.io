@@ -565,7 +565,79 @@ footer{
   padding:0.25rem 0.7rem;border:1px solid var(--border-hi);color:var(--text-muted);
 }
 
-/* ── REVEAL ── */
+/* ── RESEARCH GIF BANNER ── */
+.research-banner{
+  position:relative;
+  width:100%;
+  height:420px;
+  overflow:hidden;
+  margin-bottom:3.5rem;
+  border:1px solid var(--border);
+}
+.research-banner img{
+  width:100%;height:100%;
+  object-fit:cover;object-position:center 30%;
+  display:block;
+  filter:var(--img-filter);
+  mix-blend-mode:luminosity;
+  transform:scale(1.03);
+  transition:transform 12s ease;
+}
+.research-banner:hover img{
+  transform:scale(1.0);
+}
+/* multi-layer overlay: vignette + bottom-to-top fade + subtle accent tint */
+.research-banner::before{
+  content:'';position:absolute;inset:0;z-index:1;
+  background:
+    linear-gradient(180deg, rgba(var(--bg-rgb),0.55) 0%, transparent 28%, transparent 55%, rgba(var(--bg-rgb),0.92) 100%),
+    linear-gradient(90deg, rgba(var(--bg-rgb),0.35) 0%, transparent 40%, transparent 60%, rgba(var(--bg-rgb),0.35) 100%);
+  pointer-events:none;
+}
+/* accent-tinted shimmer line at top */
+.research-banner::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;z-index:2;
+  background:linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity:0.7;
+}
+.research-banner-caption{
+  position:absolute;bottom:0;left:0;right:0;z-index:3;
+  padding:1.5rem 2.5rem;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;
+}
+.research-banner-label{
+  font-size:0.78rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:0.35rem;
+  display:flex;align-items:center;gap:0.5rem;
+}
+.research-banner-label::before{
+  content:'';display:inline-block;
+  width:18px;height:2px;background:var(--accent);
+}
+.research-banner-title{
+  font-size:clamp(1.1rem,2vw,1.5rem);font-weight:300;
+  color:var(--heading);letter-spacing:-0.02em;line-height:1.2;
+}
+.research-banner-title strong{font-weight:700}
+.research-banner-tag{
+  font-size:0.8rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--text-muted);white-space:nowrap;
+  border:1px solid var(--border);padding:0.3rem 0.75rem;
+  display:flex;align-items:center;gap:0.45rem;flex-shrink:0;
+  align-self:flex-end;
+}
+/* blinking recording dot */
+.rec-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--accent);
+  animation:pulse 1.8s ease-in-out infinite;
+  flex-shrink:0;
+}
+@media(max-width:768px){
+  .research-banner{height:260px}
+  .research-banner-caption{padding:1rem 1.5rem}
+  .research-banner-tag{display:none}
+}
 .reveal{opacity:0;transform:translateY(20px);transition:opacity 0.55s ease,transform 0.55s ease}
 .reveal.in{opacity:1;transform:none}
 .d1{transition-delay:0.08s}.d2{transition-delay:0.16s}.d3{transition-delay:0.24s}
@@ -726,6 +798,19 @@ footer{
     <h2 class="sh">Decoding <strong>Rhizosphere Chemistry</strong></h2>
     <p class="sl">Using omic tools, my research aims to reconstruct the continuum from the biochemistry of rhizosphere interactions to ecosystem function. Select any area to explore it in depth.</p>
   </div>
+
+  <!-- GIF BANNER -->
+  <div class="research-banner reveal">
+    <img src="assets/img/2024Greenhouse-1of11-ezgif.com-optimize.gif" alt="Greenhouse research — rhizosphere experiment in progress" loading="lazy">
+    <div class="research-banner-caption">
+      <div>
+        <div class="research-banner-label">Field Work</div>
+        <div class="research-banner-title">Cover Crop Trials &amp; <strong>Rhizosphere Sampling</strong></div>
+      </div>
+      <div class="research-banner-tag"><span class="rec-dot"></span>Berkeley Lab · 2024</div>
+    </div>
+  </div>
+
   <div class="rg-wrap reveal">
   <div class="rg" id="rg-carousel">
     <a class="rc" href="#" onclick="openResearch('cover-crops',event)">
