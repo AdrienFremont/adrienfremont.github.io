@@ -581,7 +581,7 @@ footer{
   /* Keep natural colors with an elegant cinematic treatment */
   filter:saturate(0.72) brightness(0.55) contrast(1.15) sepia(0.08);
   transform:scale(1.03);
-  transition:opacity 1.8s ease, transform 12s ease, filter 1.5s ease;
+  transition:transform 12s ease, filter 1.5s ease;
   opacity:0;
 }
 .research-banner img.active{opacity:1}
@@ -1212,7 +1212,7 @@ function submitForm(e){
     imgs[current].classList.remove('active');
     current = (current + 1) % imgs.length;
     imgs[current].classList.add('active');
-  }, 7000);
+  }, 12000);
 })();
 
 
