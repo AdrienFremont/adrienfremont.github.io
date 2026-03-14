@@ -571,7 +571,6 @@ footer{
   width:100%;
   height:520px;
   overflow:hidden;
-  border:1px solid var(--border);
 }
 .research-banner img{
   position:absolute;inset:0;
@@ -597,12 +596,6 @@ footer{
     linear-gradient(90deg, rgba(var(--bg-rgb),0.50) 0%, transparent 35%, transparent 65%, rgba(var(--bg-rgb),0.50) 100%),
     radial-gradient(ellipse at center, transparent 40%, rgba(var(--bg-rgb),0.35) 100%);
   pointer-events:none;
-}
-/* accent-tinted shimmer line at top */
-.research-banner::after{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;z-index:2;
-  background:linear-gradient(90deg, transparent, var(--accent), transparent);
-  opacity:0.7;
 }
 
 /* ── BANNER TEXT OVERLAY ── */
