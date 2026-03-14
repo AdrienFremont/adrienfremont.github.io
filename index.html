@@ -574,14 +574,17 @@ footer{
   border:1px solid var(--border);
 }
 .research-banner img{
+  position:absolute;inset:0;
   width:100%;height:100%;
   object-fit:cover;object-position:center 30%;
   display:block;
   /* Keep natural colors with an elegant cinematic treatment */
   filter:saturate(0.72) brightness(0.55) contrast(1.15) sepia(0.08);
   transform:scale(1.03);
-  transition:transform 12s ease, filter 1.5s ease;
+  transition:opacity 1.8s ease, transform 12s ease, filter 1.5s ease;
+  opacity:0;
 }
+.research-banner img.active{opacity:1}
 .research-banner:hover img{
   transform:scale(1.0);
   filter:saturate(0.78) brightness(0.58) contrast(1.12) sepia(0.05);
@@ -785,7 +788,8 @@ footer{
 
   <!-- GIF BANNER with title overlay -->
   <div class="research-banner reveal">
-    <img src="assets/img/2024Greenhouse-1of11-ezgif.com-optimize.gif" alt="Greenhouse research — rhizosphere experiment in progress" loading="lazy">
+    <img class="active" src="assets/img/2024Greenhouse-1of11-ezgif.com-optimize.gif" alt="Greenhouse research — rhizosphere experiment in progress" loading="lazy">
+    <img src="assets/img/IMG_7347-ezgif.com-optimize copy.gif" alt="Rhizosphere field sampling" loading="lazy">
     <div class="research-banner-overlay">
       <div class="stag"><div class="stag-line"></div><span>Research Program</span></div>
       <h2 class="sh">Decoding <strong>Rhizosphere Chemistry</strong></h2>
@@ -1198,6 +1202,18 @@ function submitForm(e){
 }
 
 /* ══ CHARTS ══ */
+
+/* ══ BANNER GIF CROSSFADE ══ */
+(function(){
+  const imgs = document.querySelectorAll('.research-banner img');
+  if(imgs.length < 2) return;
+  let current = 0;
+  setInterval(()=>{
+    imgs[current].classList.remove('active');
+    current = (current + 1) % imgs.length;
+    imgs[current].classList.add('active');
+  }, 7000);
+})();
 
 
 
