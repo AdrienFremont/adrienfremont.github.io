@@ -206,8 +206,16 @@ section{padding:6rem 3rem}
 }
 
 /* ── RESEARCH CAROUSEL ── */
-#research{background:transparent;overflow:hidden;position:relative;padding:0}
-.rg-wrap{position:relative;z-index:2;padding:0 3rem 4rem}
+#research{background:var(--bg2);overflow:hidden;position:relative;padding:0}
+
+/* Banner block: gives the GIF banner its own height in flow */
+.research-banner-block{
+  position:relative;
+  min-height:52vh;
+  overflow:hidden;
+}
+
+.rg-wrap{position:relative;z-index:2;padding:3.5rem 3rem 4rem}
 .rg{
   display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
   -webkit-overflow-scrolling:touch;scrollbar-width:none;
@@ -753,6 +761,46 @@ footer{
 @media(max-width:768px){
   .ov-iframe-wrap iframe{height:420px}
 }
+
+/* ── OVERLAY TWO-COLUMN (text + sticky UMAP) ── */
+.ov-body.has-viz{max-width:none;padding:0}
+.ov-two-col{
+  display:grid;
+  grid-template-columns:1fr 440px;
+  align-items:start;
+  min-height:calc(100vh - 60px);
+}
+.ov-col-main{
+  padding:3.5rem 3rem 5rem;
+  max-width:720px;
+}
+.ov-col-viz{
+  position:sticky;
+  top:60px;
+  height:calc(100vh - 60px);
+  display:flex;
+  flex-direction:column;
+  border-left:1px solid var(--border);
+  background:var(--bg);
+  overflow:hidden;
+}
+.ov-col-viz-label{
+  font-size:0.76rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--text-muted);padding:0.65rem 1.25rem;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:0.55rem;
+  flex-shrink:0;background:var(--bg2);
+}
+.ov-col-viz-label::before{
+  content:'';width:14px;height:2px;background:var(--accent);flex-shrink:0;
+}
+.ov-col-viz iframe{
+  flex:1;width:100%;border:none;display:block;background:var(--bg);
+}
+@media(max-width:1100px){
+  .ov-two-col{grid-template-columns:1fr}
+  .ov-col-viz{position:static;height:520px;border-left:none;border-top:1px solid var(--border)}
+}
 </style>
 </head>
 <body>
@@ -806,6 +854,9 @@ footer{
 <!-- RESEARCH -->
 <section id="research">
 
+  <!-- BANNER BLOCK: banner image + text, in normal flow -->
+  <div class="research-banner-block">
+
   <!-- GIF BANNER background -->
   <div class="research-banner">
     <img class="active" src="assets/img/2024Greenhouse-1of11-ezgif.com-optimize.gif" alt="Greenhouse research — rhizosphere experiment in progress" loading="lazy">
@@ -818,6 +869,8 @@ footer{
     <h2 class="sh">Decoding <strong>Rhizosphere Chemistry</strong></h2>
     <p class="sl">Using omic tools, my research aims to reconstruct the continuum from the biochemistry of rhizosphere interactions to ecosystem function. Select any area to explore it in depth.</p>
   </div>
+
+  </div><!-- /research-banner-block -->
 
   <div class="rg-wrap reveal">
   <div class="rg" id="rg-carousel">
@@ -1482,36 +1535,56 @@ function openResearch(id, e){
   document.getElementById('ov-title').innerHTML=d.title;
   document.getElementById('ov-sub').textContent=d.sub;
   document.getElementById('ov-breadcrumb').textContent='Research / '+id.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
-  let html='';
-  d.sections.forEach(s=>{
-    html+=`<div class="ov-section"><div class="ov-sh">${s.heading}</div>`;
-    if(s.content) html+=s.content;
-    if(s.highlights){
-      html+='<div class="ov-highlights">';
-      s.highlights.forEach(h=>{html+=`<div class="ov-hl"><div class="ov-hl-num">${h.n}</div><div class="ov-hl-l">${h.l}</div></div>`});
+
+  // Separate out any iframe section for the right-panel
+  const iframeSec = d.sections.find(s=>s.iframe);
+  const mainSecs  = d.sections.filter(s=>!s.iframe);
+
+  function renderSections(sections){
+    let html='';
+    sections.forEach(s=>{
+      html+=`<div class="ov-section"><div class="ov-sh">${s.heading}</div>`;
+      if(s.content) html+=s.content;
+      if(s.highlights){
+        html+='<div class="ov-highlights">';
+        s.highlights.forEach(h=>{html+=`<div class="ov-hl"><div class="ov-hl-num">${h.n}</div><div class="ov-hl-l">${h.l}</div></div>`});
+        html+='</div>';
+      }
+      if(s.methods){
+        html+='<div class="ov-methods">';
+        s.methods.forEach(m=>{html+=`<div class="ov-method"><div class="ov-m-t">${m.t}</div><div class="ov-m-d">${m.d}</div></div>`});
+        html+='</div>';
+      }
+      if(s.pubs){
+        html+='<div class="ov-pubs">';
+        s.pubs.forEach(p=>{html+=`<div class="ov-pub"><div class="ov-pub-t">${p.t}</div><div class="ov-pub-a">${p.a}</div><div class="ov-pub-v">${p.v}</div></div>`});
+        html+='</div>';
+      }
+      if(s.tags){
+        html+='<div class="ov-tags">';
+        s.tags.forEach(t=>{html+=`<span class="ov-tag">${t}</span>`});
+        html+='</div>';
+      }
       html+='</div>';
-    }
-    if(s.methods){
-      html+='<div class="ov-methods">';
-      s.methods.forEach(m=>{html+=`<div class="ov-method"><div class="ov-m-t">${m.t}</div><div class="ov-m-d">${m.d}</div></div>`});
-      html+='</div>';
-    }
-    if(s.pubs){
-      html+='<div class="ov-pubs">';
-      s.pubs.forEach(p=>{html+=`<div class="ov-pub"><div class="ov-pub-t">${p.t}</div><div class="ov-pub-a">${p.a}</div><div class="ov-pub-v">${p.v}</div></div>`});
-      html+='</div>';
-    }
-    if(s.iframe){
-      html+=`<div class="ov-iframe-wrap"><div class="ov-iframe-label">${s.iframeLabel||'Interactive Figure'}</div><iframe src="${s.iframe}" loading="lazy" allowfullscreen scrolling="no"></iframe></div>`;
-    }
-    if(s.tags){
-      html+='<div class="ov-tags">';
-      s.tags.forEach(t=>{html+=`<span class="ov-tag">${t}</span>`});
-      html+='</div>';
-    }
-    html+='</div>';
-  });
-  document.getElementById('ov-body').innerHTML=html;
+    });
+    return html;
+  }
+
+  const ovBody = document.getElementById('ov-body');
+  if(iframeSec){
+    ovBody.classList.add('has-viz');
+    ovBody.innerHTML=`<div class="ov-two-col">
+      <div class="ov-col-main">${renderSections(mainSecs)}</div>
+      <div class="ov-col-viz">
+        <div class="ov-col-viz-label">${iframeSec.iframeLabel||'Interactive Figure'}</div>
+        <iframe src="${iframeSec.iframe}" loading="lazy" allowfullscreen scrolling="no"></iframe>
+      </div>
+    </div>`;
+  } else {
+    ovBody.classList.remove('has-viz');
+    ovBody.innerHTML=renderSections(mainSecs);
+  }
+
   overlay.classList.add('open');
   overlay.scrollTop=0;
   history.pushState({research:id},'',`#research/${id}`);
