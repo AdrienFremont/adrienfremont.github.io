@@ -206,8 +206,8 @@ section{padding:6rem 3rem}
 }
 
 /* ── RESEARCH CAROUSEL ── */
-#research{background:var(--bg2);overflow:hidden}
-.rg-wrap{position:relative}
+#research{background:transparent;overflow:hidden;position:relative;padding:0}
+.rg-wrap{position:relative;z-index:2;padding:0 3rem 4rem}
 .rg{
   display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
   -webkit-overflow-scrolling:touch;scrollbar-width:none;
@@ -219,14 +219,15 @@ section{padding:6rem 3rem}
   display:grid;grid-template-columns:1fr 1fr;min-height:380px;
   cursor:pointer;position:relative;overflow:hidden;
   transition:background 0.25s;text-decoration:none;color:inherit;
-  background:var(--bg2);
+  background:rgba(var(--bg-rgb),0.82);
+  backdrop-filter:blur(12px);
 }
 .rc-text{
   padding:2.8rem 2.5rem;display:flex;flex-direction:column;
 }
 .rc-photo{
   position:relative;overflow:hidden;
-  background:var(--bg3);
+  background:rgba(var(--bg-rgb),0.4);
   display:flex;align-items:center;justify-content:center;
 }
 .rc-photo-placeholder{
@@ -242,7 +243,7 @@ section{padding:6rem 3rem}
   background:var(--accent);transform:scaleX(0);transform-origin:left;
   transition:transform 0.3s;
 }
-.rc:hover{background:var(--bg3)}
+.rc:hover{background:rgba(var(--bg-rgb),0.90)}
 .rc:hover::after{transform:scaleX(1)}
 .rc:hover .rc-arrow{opacity:1;transform:translateX(0)}
 .rc-num{
@@ -567,10 +568,11 @@ footer{
 
 /* ── RESEARCH GIF BANNER ── */
 .research-banner{
-  position:relative;
-  width:100%;
-  height:520px;
+  position:absolute;
+  inset:0;
+  width:100%;height:100%;
   overflow:hidden;
+  z-index:0;
 }
 .research-banner img{
   position:absolute;inset:0;
@@ -592,18 +594,18 @@ footer{
 .research-banner::before{
   content:'';position:absolute;inset:0;z-index:1;
   background:
-    linear-gradient(180deg, rgba(var(--bg-rgb),0.70) 0%, rgba(var(--bg-rgb),0.18) 35%, rgba(var(--bg-rgb),0.10) 55%, rgba(var(--bg-rgb),0.85) 100%),
+    linear-gradient(180deg, rgba(var(--bg-rgb),0.55) 0%, rgba(var(--bg-rgb),0.15) 20%, rgba(var(--bg-rgb),0.10) 40%, rgba(var(--bg-rgb),0.65) 60%, rgba(var(--bg-rgb),0.85) 80%, rgba(var(--bg-rgb),0.95) 100%),
     linear-gradient(90deg, rgba(var(--bg-rgb),0.50) 0%, transparent 35%, transparent 65%, rgba(var(--bg-rgb),0.50) 100%),
-    radial-gradient(ellipse at center, transparent 40%, rgba(var(--bg-rgb),0.35) 100%);
+    radial-gradient(ellipse at center, transparent 30%, rgba(var(--bg-rgb),0.35) 100%);
   pointer-events:none;
 }
 
 /* ── BANNER TEXT OVERLAY ── */
 .research-banner-overlay{
-  position:absolute;inset:0;z-index:3;
+  position:relative;z-index:2;
   display:flex;flex-direction:column;
   justify-content:flex-end;
-  padding:0 3rem 3.5rem;
+  padding:8rem 3rem 3.5rem;
   pointer-events:none;
 }
 .research-banner-overlay .stag{
@@ -620,8 +622,7 @@ footer{
 }
 
 @media(max-width:768px){
-  .research-banner{height:340px}
-  .research-banner-overlay{padding:0 1.5rem 2rem}
+  .research-banner-overlay{padding:6rem 1.5rem 2rem}
 }
 .reveal{opacity:0;transform:translateY(20px);transition:opacity 0.55s ease,transform 0.55s ease}
 .reveal.in{opacity:1;transform:none}
@@ -659,6 +660,7 @@ footer{
   .rc{grid-template-columns:1fr;min-height:auto}
   .rc-photo{min-height:220px}
   .rc-text{padding:2rem 1.5rem}
+  .rg-wrap{padding:0 1.5rem 3rem}
 }
 /* ── THEME SWITCHER ── */
 #theme-switcher{
@@ -779,15 +781,17 @@ footer{
 <!-- RESEARCH -->
 <section id="research">
 
-  <!-- GIF BANNER with title overlay -->
-  <div class="research-banner reveal">
+  <!-- GIF BANNER background -->
+  <div class="research-banner">
     <img class="active" src="assets/img/2024Greenhouse-1of11-ezgif.com-optimize.gif" alt="Greenhouse research — rhizosphere experiment in progress" loading="lazy">
     <img src="assets/img/IMG_7347-ezgif.com-optimize copy.gif" alt="Rhizosphere field sampling" loading="lazy">
-    <div class="research-banner-overlay">
-      <div class="stag"><div class="stag-line"></div><span>Research Program</span></div>
-      <h2 class="sh">Decoding <strong>Rhizosphere Chemistry</strong></h2>
-      <p class="sl">Using omic tools, my research aims to reconstruct the continuum from the biochemistry of rhizosphere interactions to ecosystem function. Select any area to explore it in depth.</p>
-    </div>
+  </div>
+
+  <!-- Research text overlay (in flow) -->
+  <div class="research-banner-overlay">
+    <div class="stag"><div class="stag-line"></div><span>Research Program</span></div>
+    <h2 class="sh">Decoding <strong>Rhizosphere Chemistry</strong></h2>
+    <p class="sl">Using omic tools, my research aims to reconstruct the continuum from the biochemistry of rhizosphere interactions to ecosystem function. Select any area to explore it in depth.</p>
   </div>
 
   <div class="rg-wrap reveal">
