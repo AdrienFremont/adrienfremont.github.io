@@ -728,6 +728,31 @@ footer{
 }
 .ts-mode:hover{border-color:var(--accent);color:var(--accent)}
 .ts-mode svg{width:10px;height:10px}
+
+/* ── UMAP IFRAME EMBED ── */
+.ov-iframe-wrap{
+  margin-bottom:2rem;
+  border:1px solid var(--border);
+  background:var(--bg);
+  overflow:hidden;
+  position:relative;
+}
+.ov-iframe-label{
+  font-size:0.76rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--text-muted);padding:0.55rem 1.25rem;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:0.55rem;
+}
+.ov-iframe-label::before{
+  content:'';width:14px;height:2px;background:var(--accent);flex-shrink:0;
+}
+.ov-iframe-wrap iframe{
+  width:100%;height:620px;border:none;display:block;
+  background:var(--bg);
+}
+@media(max-width:768px){
+  .ov-iframe-wrap iframe{height:420px}
+}
 </style>
 </head>
 <body>
@@ -1246,8 +1271,14 @@ const RESEARCH = {
         ]
       },
       {
+        heading:'Exudate Metabolome Map',
+        content:`<p class="ov-p">The figure below is an interactive 3D UMAP projection of <strong>DreaMS spectral embeddings</strong> computed from all cover crop root exudate LC-MS/MS spectra. Each point is a metabolic feature; proximity encodes chemical similarity. Use the dropdown to switch annotation levels — from broad metabolic pathways down to individual species and functional group dominance.</p>`,
+        iframe:'dreams_3d_umap_styled.html',
+        iframeLabel:'3D UMAP · DreaMS Embeddings · Exudate Metabolome'
+      },
+      {
         heading:'Tags',
-        tags:['LC-MS/MS','Untargeted Metabolomics','Amplicon Sequencing','Shotgun Metagenomics','GHG Flux','Network Analysis','Rhizosphere','Cover Crops','Agroecology','Soil Health']
+        tags:['LC-MS/MS','Untargeted Metabolomics','Amplicon Sequencing','Shotgun Metagenomics','GHG Flux','Network Analysis','Rhizosphere','Cover Crops','Agroecology','Soil Health','DreaMS','UMAP','3D Visualization']
       }
     ]
   },
@@ -1469,6 +1500,9 @@ function openResearch(id, e){
       html+='<div class="ov-pubs">';
       s.pubs.forEach(p=>{html+=`<div class="ov-pub"><div class="ov-pub-t">${p.t}</div><div class="ov-pub-a">${p.a}</div><div class="ov-pub-v">${p.v}</div></div>`});
       html+='</div>';
+    }
+    if(s.iframe){
+      html+=`<div class="ov-iframe-wrap"><div class="ov-iframe-label">${s.iframeLabel||'Interactive Figure'}</div><iframe src="${s.iframe}" loading="lazy" allowfullscreen scrolling="no"></iframe></div>`;
     }
     if(s.tags){
       html+='<div class="ov-tags">';
